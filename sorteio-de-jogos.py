@@ -66,5 +66,16 @@ while contador_b > 0:
     sobra = participantes - contador
     contador_b = contador_b - 1
 
+
 campeao = len(timesjogando)
+print('1º ',timesjogando[campeao-1])
+
+print('2º ',timesjogando[campeao-2])
+
+print('3º ',timesjogando[campeao-3])
+
 print('O CAMPEÃO :', timesjogando[campeao-1])
+
+salvar = input('\nDeseja Salvar seu campeonato?')
+if salvar == 'sim':
+    salve = open('teste.txt','w')
