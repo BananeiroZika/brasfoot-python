@@ -1,60 +1,68 @@
 import random
-lista = []
+import csv
+
+#dicionarios e listas
 times = []
 timesjogando = []
-arquivo = open("times.csv", "r")
+
+#ABRIR BANCO DE TIMES
+arquivo = open('times.csv','r')
 times = arquivo.readlines()
 arquivo.close()
-tam = len(times)
-for i in range(tam):
-    jogar = times[i]
-    print(jogar.strip('\n'))
-    timesjogando.append(jogar.strip('\n'))
-    print(timesjogando)
 
-#vou tentar fazer a adição de numeros a matriz utilizando função
+#FUNÇÕES
 def sorteio():
 
     resp = random.randint(0, 5)
     return resp
 
-def comparar(golstime1, golstime2,nomedotime):
-    if golstime1 > golstime2:
-        return print('O ', nomedotime, 'Venceu')
-    elif golstime1 < golstime2:
-        return print('O', nomedotime, 'PERDEU')
-    else:
-        return "Empate"
+def jogo(partipantes,contador_externo, divisao):
+    contador = contador_externo
+    timecasa = 0
+    timefora = 0
+    print("="*20)
+    participantes_divisao = divisao
+    while contador < participantes:
+        timecasa = sorteio()
+        timefora = sorteio()
+        print(timesjogando[contador],timecasa,' x ',timefora,timesjogando[contador+1])
+        contador = contador+2
 
+        if timefora > timecasa:
+            if participantes_divisao > 1:
+                timesjogando.append(timesjogando[contador])
+        elif timefora < timecasa:
+            if participantes_divisao > 1:
+                timesjogando.append(timesjogando[contador+1])
+        else:
+            if participantes_divisao > 1:
+                timesjogando.append(timesjogando[contador])
+    contador = participantes
+
+min_times = 2
+participantes = 2
+
+
+participantes = int(input('Digite o numero de times (2 - 4 - 8):'))
+
+for i in range(participantes):
+        #RESOLVER QUEBRAS DE LINHA
+        jogar = times[i]
+        timesjogando.append(jogar.strip('\n'))
+
+# ====== COMEÇO REAL =========
 
 contador = 0
-while contador < 4:
-    lista.append(random.randint(0, 9))
-    contador = contador + 1
+contador_b = 1
+    #NUMERO DE FASES
+participantes_divisao = participantes
+while participantes_divisao/2 > 1:
+    contador_b = contador_b+1
+    participantes_divisao = participantes_divisao/2
 
-timea = sorteio()
-timeb = sorteio()
-timec = sorteio()
-timed = sorteio()
-final1 = sorteio()
-final2 = sorteio()
-# JOGOS
-print('='*15,'SEMIFINAL:','='*15)
-print(timesjogando[1],timea,'X',timeb, timesjogando[0])
-print(timesjogando[2],timec,'X',timed,timesjogando[3])
-if timea > timeb:
-    finalista1 = timesjogando[1]
-elif timea == timeb:
-    finalista1 = timesjogando[0]
-else:
-    finalista1 = timesjogando[0]
 
-if timec > timed:
-    finalista2 = timesjogando[2]
-elif timec == timed:
-    finalista2 = timesjogando[3]
-else:
-    finalista2 = timesjogando[3]
 
-print('='*15,'FINAL:','='*15)
-print(finalista2, final1 ,'X', final2, finalista1)
+while contador_b > 0:
+    jogo(participantes,contador, contador_b) #PRIMEIRA FASE
+    contador = len(timesjogando)-participantes
+    contador_b = contador_b - 1
