@@ -25,23 +25,20 @@ def jogo(partipantes,contador_externo, divisao):
     while contador < participantes:
         timecasa = sorteio()
         timefora = sorteio()
-        print(timesjogando[contador],timecasa,' x ',timefora,timesjogando[contador+1])
-        contador = contador+2
-
-        if timefora > timecasa:
+        print(timesjogando[contador], timecasa, ' x ', timefora, timesjogando[contador + 1])
+        if timefora < timecasa:
             if participantes_divisao > 1:
                 timesjogando.append(timesjogando[contador])
-        elif timefora < timecasa:
+        elif timefora > timecasa:
             if participantes_divisao > 1:
                 timesjogando.append(timesjogando[contador+1])
         else:
             if participantes_divisao > 1:
                 timesjogando.append(timesjogando[contador])
-    contador = participantes
+        contador = contador+2
 
 min_times = 2
 participantes = 2
-
 
 participantes = int(input('Digite o numero de times (2 - 4 - 8):'))
 
@@ -63,6 +60,11 @@ while participantes_divisao/2 > 1:
 
 
 while contador_b > 0:
-    jogo(participantes,contador, contador_b) #PRIMEIRA FASE
-    contador = len(timesjogando)-participantes
+    jogo(participantes,contador, contador_b)
+    contador = participantes
+    participantes = len(timesjogando)
+    sobra = participantes - contador
     contador_b = contador_b - 1
+
+campeao = len(timesjogando)
+print('O CAMPEÃO :', timesjogando[campeao-1])
