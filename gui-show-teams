@@ -1,0 +1,63 @@
+from tkinter import *
+import csv
+
+times = []
+timesjogando = []
+timenatela = []
+erro2 = []
+
+arquivo = open("times.csv", "r")
+times = arquivo.readlines()
+arquivo.close()
+tam = len(times)
+
+for i in range(tam):
+    jogar = times[i]
+    timesjogando.append(jogar.strip('\n'))
+
+#FUNÇÕES
+
+def proximo():
+    x = len(timenatela)
+    x = x + 1
+    timenatela.append('a')
+    maximo = len(timesjogando)
+    if x == maximo:
+        x = 0
+        timenatela.clear()
+    lbl1['text'] = timesjogando[x]
+
+def anterior():
+    x = len(timenatela)
+    if x == 0:
+        maximo = len(timesjogando)
+        x = maximo - 1
+        conta = 1
+        while conta < maximo:
+            timenatela.append('a')
+            print(len(timenatela))
+            conta = conta + 1
+    else:
+        del (timenatela[0])
+        x = x - 1
+    lbl1['text'] = timesjogando[x]
+
+
+
+janela = Tk()
+janela.geometry('400x400')
+print('numero é ', len(timenatela) )
+time_jogador = Entry(janela, width=30,bg='sky blue')
+time_jogador.place(x=10,y=10)
+
+
+lbl1 = Label(janela, text=timesjogando[0],font='Helvetica')
+lbl1.place(x=100,y=70)
+
+btn_next = Button(janela, width=10, text='Proximo',command=proximo)
+btn_next.place(x=100, y=100)
+
+btn_previous = Button(janela, width=10, text='Anterior',command=anterior)
+btn_previous.place(x=205,y=100)
+
+janela.mainloop()
