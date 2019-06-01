@@ -1,0 +1,61 @@
+from tkinter import *
+import csv
+
+times = []
+timesjogando = []
+timenatela = []
+
+arquivo = open("times.csv", "r")
+times = arquivo.readlines()
+arquivo.close()
+tam = len(times)
+
+for i in range(tam):
+    jogar = times[i]
+    timesjogando.append(jogar.strip('\n'))
+
+#FUNÇÕES
+
+def proximo():
+    x = len(timenatela)
+    print('='*30)
+    if x == len(times):
+        x = 0
+        timenatela.clear()
+    lbl1['text'] = timesjogando[x]
+    timenatela.append('a')
+    print('ATUAL >',timesjogando[x])
+    print('PROXIMO >',timesjogando[len(timenatela)])
+
+def anterior():
+    x = len(timenatela)
+    x = x - 2
+
+    print(x)
+    if timesjogando[x] == timesjogando[0]:
+        x = 8
+        i = 1
+        while i < 9:
+            timenatela.append('a')
+    print(x)
+    lbl1['text'] = timesjogando[x]
+    del(timenatela[0])
+    print('PROXIMO >', timesjogando[len(timenatela)])
+
+janela = Tk()
+janela.geometry('400x400')
+
+time_jogador = Entry(janela, width=30,bg='sky blue')
+time_jogador.place(x=10,y=10)
+
+
+lbl1 = Label(janela, text='time',font='Helvetica')
+lbl1.place(x=100,y=70)
+
+btn_next = Button(janela, width=10, text='Proximo',command=proximo)
+btn_next.place(x=100, y=100)
+
+btn_previous = Button(janela, width=10, text='Anterior',command=anterior)
+btn_previous.place(x=205,y=100)
+
+janela.mainloop()
